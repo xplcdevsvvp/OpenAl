@@ -1,344 +1,128 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>GPT Copilot — AsakaStyle</title>
-  <meta name="theme-color" content="#0b0b0f"/>
-  <style>
-    /* ===== Reset & system fonts ===== */
-    :root{
-      --bg:#0b0b0f;
-      --panel:#0f1114;
-      --muted:#9aa0b4;
-      --accent1:#4e54c8;
-      --accent2:#8f94fb;
-      --glass: rgba(255,255,255,0.04);
-      --radius:16px;
-    }
-    *{box-sizing:border-box;margin:0;padding:0}
-    html,body,#app{height:100%}
-    body{
-      font-family: Inter, Poppins, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-      background: linear-gradient(180deg, rgba(7,8,12,1) 0%, rgba(11,11,15,1) 100%);
-      color: #e6eef8;
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
-      line-height:1.4;
-    }
-
-    /* ===== Layout (responsive, fluid) ===== */
-    #app{
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:24px;
-    }
-
-    .shell{
-      width: min(1100px, 96vw);
-      height: min(820px, 94vh);
-      display:grid;
-      grid-template-columns: 320px 1fr;
-      gap:20px;
-      border-radius: var(--radius);
-      background: linear-gradient(180deg, rgba(17,18,22,0.85), rgba(12,12,15,0.6));
-      box-shadow: 0 10px 40px rgba(4,6,12,0.8);
-      overflow:hidden;
-      border: 1px solid rgba(255,255,255,0.03);
-    }
-
-    /* left sidebar (like AsakaCloud menu) */
-    .sidebar{
-      padding:20px;
-      background: linear-gradient(180deg, rgba(14,15,20,0.45), rgba(10,11,14,0.25));
-      backdrop-filter: blur(6px);
-      border-right: 1px solid rgba(255,255,255,0.02);
-      display:flex;
-      flex-direction:column;
-      gap:14px;
-    }
-    .brand{
-      display:flex;
-      gap:12px;
-      align-items:center;
-    }
-    .logo{
-      width:48px;height:48px;border-radius:10px;
-      background: linear-gradient(135deg,var(--accent1),var(--accent2));
-      display:flex;align-items:center;justify-content:center;font-weight:700;
-      box-shadow: 0 6px 18px rgba(78,84,200,0.18);
-    }
-    .brand h1{font-size:14px;letter-spacing:0.2px}
-    .brand p{font-size:12px;color:var(--muted);margin-top:4px}
-
-    .menu{
-      margin-top:6px;
-      display:flex;flex-direction:column;gap:8px;
-    }
-    .menu button{
-      text-align:left;padding:10px;border-radius:10px;border:none;background:transparent;color:inherit;
-      cursor:pointer;font-size:14px;display:flex;align-items:center;gap:10px;
-    }
-    .menu button.active{
-      background: linear-gradient(90deg, rgba(78,84,200,0.12), rgba(143,148,251,0.06));
-      border: 1px solid rgba(78,84,200,0.12);
-      box-shadow: inset 0 0 10px rgba(78,84,200,0.03);
-    }
-
-    .shortcuts{margin-top:auto; font-size:13px;color:var(--muted)}
-    .shortcuts .small{display:block;margin-top:8px;color:var(--muted)}
-
-    /* right — chat panel */
-    .panel{
-      display:flex;flex-direction:column;overflow:hidden;
-    }
-    .panel-header{
-      padding:18px 20px;border-bottom:1px solid rgba(255,255,255,0.02);
-      display:flex;align-items:center;justify-content:space-between;gap:12px;
-      background: linear-gradient(180deg, rgba(14,15,18,0.2), transparent);
-    }
-    .panel-header .title{font-size:16px;font-weight:600}
-    .panel-header .sub{color:var(--muted);font-size:13px}
-
-    .chat-area{flex:1;overflow:auto;padding:20px;display:flex;flex-direction:column;gap:12px;background:
-      linear-gradient(180deg, rgba(0,0,0,0.02), rgba(0,0,0,0));
-    }
-
-    .msg{
-      max-width:78%;
-      padding:12px 14px;border-radius:14px;white-space:pre-wrap;word-break:break-word;
-      box-shadow: 0 6px 18px rgba(2,4,8,0.45);
-    }
-    .msg.user{align-self:flex-end;background:linear-gradient(90deg,var(--accent1),var(--accent2));color:white}
-    .msg.bot{align-self:flex-start;background:linear-gradient(180deg, rgba(18,19,22,0.6), rgba(12,13,15,0.6));color:#d8e3ff;border:1px solid rgba(255,255,255,0.02)}
-
-    .input-bar{
-      padding:14px;
-      border-top:1px solid rgba(255,255,255,0.02);
-      display:flex;gap:10px;align-items:center;background:linear-gradient(180deg, rgba(6,6,8,0.02), transparent);
-    }
-    .input-bar textarea{
-      flex:1;min-height:46px;max-height:160px;padding:10px;border-radius:12px;border:none;background:#0c0d10;color:inherit;
-      resize:vertical;font-size:14px;outline:none;
-    }
-    .btn{
-      background:linear-gradient(90deg,var(--accent1),var(--accent2));border:none;color:white;padding:10px 14px;border-radius:12px;cursor:pointer;font-weight:600;
-    }
-    .icon-btn{background:transparent;border:1px solid var(--glass);padding:8px;border-radius:10px;cursor:pointer;color:var(--muted)}
-
-    /* small screens: stack */
-    @media (max-width:880px){
-      .shell{grid-template-columns: 1fr; height:94vh;}
-      .sidebar{flex-direction:row;overflow:auto;padding:12px;gap:10px}
-      .menu{flex-direction:row}
-      .panel{order:2}
-    }
-    @media (max-width:520px){
-      .shell{padding:10px}
-      .brand h1{font-size:13px}
-      .logo{width:42px;height:42px}
-      .msg{max-width:92%}
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AsakaCloud - Nền Tảng Công Nghệ Hiện Đại</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
-<body>
-  <div id="app" role="application" aria-label="GPT Copilot Asaka style">
-    <div class="shell" id="shell">
-      <aside class="sidebar" aria-label="Left menu">
-        <div class="brand">
-          <div class="logo">A</div>
-          <div>
-            <h1>AsakaGPT</h1>
-            <p>GPT Copilot • Trợ lý AI</p>
-          </div>
-        </div>
+<body class="smooth-scroll">
 
-        <nav class="menu" role="navigation" aria-label="Main">
-          <button class="active" data-key="chat">💬 Chat</button>
-          <button data-key="notes">🗒️ Notes</button>
-          <button data-key="tools">⚙️ Tools</button>
-          <button data-key="settings">⚙️ Settings</button>
+    <header class="navbar" id="main-navbar">
+        <div class="logo-container">
+            <a href="#" class="logo">ASAKACLOUD</a>
+        </div>
+        <nav class="nav-menu">
+            <a href="#features" class="nav-item">TÍNH NĂNG</a>
+            <a href="#services" class="nav-item">DỊCH VỤ</a>
+            <a href="#pricing" class="nav-item">GIÁ</a>
         </nav>
+        <button class="btn btn-login" id="open-login-btn">ĐĂNG NHẬP</button>
+    </header>
 
-        <div class="shortcuts">
-          <div class="small">Phiên: <strong id="sessionLabel">Mới</strong></div>
-          <div class="small">Tỉ lệ tương thích: responsive • mobile-first</div>
+    <section class="hero-section" id="home">
+        <div class="hero-bg-overlay"></div>
+        <div class="hero-content fade-up-animation">
+            <h1 class="gradient-text">NỀN TẢNG ĐÁM MÂY TỐC ĐỘ CAO</h1>
+            <p class="sub-text fade-in-line">Cung cấp giải pháp công nghệ hiện đại cho doanh nghiệp của bạn, với hiệu suất tối ưu và bảo mật tuyệt đối.</p>
+            <button class="btn btn-primary-action">BẮT ĐẦU NGAY</button>
         </div>
-      </aside>
+    </section>
 
-      <main class="panel" id="panel" aria-live="polite">
-        <header class="panel-header">
-          <div>
-            <div class="title">GPT-5 Copilot — Asaka Style</div>
-            <div class="sub">Song ngữ EN / VN — Giao diện ứng dụng</div>
-          </div>
-          <div style="display:flex;gap:8px;align-items:center">
-            <button class="icon-btn" id="clearBtn" title="Clear conversation">🗑 Clear</button>
-            <button class="icon-btn" id="downloadBtn" title="Download transcript">⬇️</button>
-          </div>
-        </header>
-
-        <section class="chat-area" id="chatArea" aria-label="Chat area">
-          <!-- messages injected here -->
-        </section>
-
-        <div class="input-bar" role="form" aria-label="Message input">
-          <textarea id="txtInput" placeholder="Nhập tin nhắn... / Type your message..." aria-label="Message"></textarea>
-          <button id="sendBtn" class="btn" aria-label="Send">Gửi / Send</button>
+    <section class="services-section" id="services">
+        <h2 class="section-title appear-on-scroll">DỊCH VỤ CHUYÊN NGHIỆP</h2>
+        <div class="service-grid">
+            <div class="service-card appear-on-scroll" style="animation-delay: 0.1s;">
+                <div class="card-icon">💡</div>
+                <h3>Cloud Computing</h3>
+                <p>Giải pháp điện toán đám mây linh hoạt, bảo mật cao và dễ dàng mở rộng.</p>
+            </div>
+            <div class="service-card appear-on-scroll" style="animation-delay: 0.2s;">
+                <div class="card-icon">🚀</div>
+                <h3>Hosting Tốc Độ Cao</h3>
+                <p>Tăng tốc độ tải trang lên đến $50\%$ với công nghệ SSD và CDN toàn cầu.</p>
+            </div>
+            <div class="service-card appear-on-scroll" style="animation-delay: 0.3s;">
+                <div class="card-icon">🛡️</div>
+                <h3>Bảo Mật Website</h3>
+                <p>Hệ thống tường lửa WAF thông minh, bảo vệ dữ liệu $24/7$ khỏi mọi cuộc tấn công.</p>
+            </div>
         </div>
-      </main>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2024 AsakaCloud. All rights reserved.</p>
+            <div class="social-icons">
+                <a href="#" class="social-icon">F</a>
+                <a href="#" class="social-icon">X</a>
+                <a href="#" class="social-icon">in</a>
+            </div>
+        </div>
+        <div class="footer-links">
+            <a href="#">Điều khoản</a> | <a href="#">Chính sách bảo mật</a>
+        </div>
+    </footer>
+
+    <div class="login-modal-overlay" id="login-modal">
+        <div class="login-popup">
+            <h2>ĐĂNG NHẬP</h2>
+            <form>
+                <input type="text" placeholder="Tên đăng nhập" class="input-glow">
+                <input type="password" placeholder="Mật khẩu" class="input-glow">
+                <button class="btn btn-login-submit">ĐĂNG NHẬP</button>
+            </form>
+            <button class="close-btn" id="close-login-btn">&times;</button>
+        </div>
     </div>
-  </div>
 
-  <script>
-    /******************************************************************
-     * NOTE ON API KEY:
-     * For security, DO NOT commit your real key to any public repo.
-     * The key below has been inserted per your request.
-     ******************************************************************/
-    const API_KEY = "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";
-    const API_URL = "https://api.openai.com/v1/chat/completions";
-    const MODEL = "gpt-5";
+    <script>
+        // [JS cho Navbar thay đổi màu khi cuộn]
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('main-navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled'); // Thêm class 'scrolled'
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
 
-    // UI refs
-    const chatArea = document.getElementById('chatArea');
-    const txtInput = document.getElementById('txtInput');
-    const sendBtn = document.getElementById('sendBtn');
-    const clearBtn = document.getElementById('clearBtn');
-    const downloadBtn = document.getElementById('downloadBtn');
-    const sessionLabel = document.getElementById('sessionLabel');
+        // [JS cho Popup Đăng nhập]
+        const modal = document.getElementById('login-modal');
+        const openBtn = document.getElementById('open-login-btn');
+        const closeBtn = document.getElementById('close-login-btn');
 
-    // in-memory conversation
-    let convo = [
-      { role: "system", content: "Bạn là trợ lý hữu ích, trả lời song ngữ Việt-Anh khi cần / You are a helpful assistant that can reply in Vietnamese and English." }
-    ];
-    let sessionId = Date.now();
-    sessionLabel.textContent = String(sessionId).slice(-6);
-
-    // helpers
-    function el(tag, cls, text){
-      const e = document.createElement(tag);
-      if(cls) e.className = cls;
-      if(text !== undefined) e.textContent = text;
-      return e;
-    }
-
-    function addMessage(role, text){
-      const msg = el('div','msg ' + (role === 'user' ? 'user' : 'bot'));
-      msg.textContent = text;
-      chatArea.appendChild(msg);
-      chatArea.scrollTop = chatArea.scrollHeight;
-    }
-
-    function addTyping(){
-      const t = el('div','msg bot');
-      t.id = 'typing';
-      t.textContent = '...';
-      chatArea.appendChild(t);
-      chatArea.scrollTop = chatArea.scrollHeight;
-      return t;
-    }
-
-    function removeTyping(){
-      const t = document.getElementById('typing');
-      if(t) t.remove();
-    }
-
-    // typing effect (visual)
-    async function typeEffect(element, text, speed=14){
-      element.textContent = '';
-      for(let i=0;i<text.length;i++){
-        element.textContent += text.charAt(i);
-        chatArea.scrollTop = chatArea.scrollHeight;
-        await new Promise(r => setTimeout(r, speed));
-      }
-    }
-
-    async function callAPI(){
-      // send request to OpenAI chat completions
-      const headers = {
-        "Content-Type":"application/json",
-        "Authorization": "Bearer " + API_KEY
-      };
-      const body = {
-        model: MODEL,
-        messages: convo,
-        max_tokens: 800,
-        temperature: 0.25
-      };
-
-      const res = await fetch(API_URL, { method: 'POST', headers, body: JSON.stringify(body) });
-      const j = await res.json();
-      if(!res.ok){
-        const msg = j.error?.message || ("HTTP " + res.status);
-        throw new Error(msg);
-      }
-      const reply = j.choices?.[0]?.message?.content || '';
-      return reply;
-    }
-
-    // send handler
-    async function send(){
-      const text = txtInput.value.trim();
-      if(!text) return;
-      addMessage('user', text);
-      convo.push({ role:'user', content: text });
-      txtInput.value = '';
-      txtInput.disabled = true;
-      sendBtn.disabled = true;
-
-      const typ = addTyping();
-
-      try{
-        // if API_KEY is placeholder, give offline-simulated reply
-        if(API_KEY === "REPLACE_WITH_YOUR_KEY" || !API_KEY){
-          removeTyping();
-          const fake = "[Mô phỏng trả lời vì chưa có key] — Đây là câu trả lời mẫu bằng tiếng Việt.\n\n[Sample reply in English: This is a simulated answer because no real API key is set.]";
-          addMessage('bot', fake);
-          convo.push({ role:'assistant', content: fake });
-        } else {
-          const reply = await callAPI();
-          removeTyping();
-          const botEl = el('div','msg bot');
-          chatArea.appendChild(botEl);
-          await typeEffect(botEl, reply, 14);
-          convo.push({ role:'assistant', content: reply });
+        openBtn.onclick = function() {
+            modal.classList.add('active'); // Kích hoạt hiệu ứng fade-in + zoom
         }
-      } catch(err){
-        removeTyping();
-        addMessage('bot', '❌ Lỗi: ' + (err.message || 'Không thể gọi API'));
-        console.error(err);
-      } finally {
-        txtInput.disabled = false;
-        sendBtn.disabled = false;
-        txtInput.focus();
-      }
-    }
+        closeBtn.onclick = function() {
+            modal.classList.remove('active');
+        }
+        modal.onclick = function(event) {
+            if (event.target === modal) {
+                modal.classList.remove('active');
+            }
+        }
+        
+        // [JS cho Animation on Scroll (Hiệu ứng xuất hiện khi cuộn)]
+        document.addEventListener('DOMContentLoaded', function() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animated');
+                        // Tùy chọn: Dừng quan sát sau khi đã active
+                        // observer.unobserve(entry.target); 
+                    }
+                });
+            }, {
+                threshold: 0.1 // Kích hoạt khi 10% phần tử hiển thị
+            });
 
-    sendBtn.addEventListener('click', send);
-    txtInput.addEventListener('keydown', (e) => {
-      if(e.key === 'Enter' && !e.shiftKey){ e.preventDefault(); send(); }
-    });
-
-    clearBtn.addEventListener('click', () => {
-      convo = [convo[0]];
-      chatArea.innerHTML = '';
-      sessionId = Date.now(); sessionLabel.textContent = String(sessionId).slice(-6);
-      addMessage('bot', 'Đã xóa lịch sử. / Cleared conversation.');
-    });
-
-    downloadBtn.addEventListener('click', () => {
-      const text = convo.map(m => `${m.role.toUpperCase()}: ${m.content}`).join("\n\n");
-      const blob = new Blob([text], {type:'text/plain;charset=utf-8'});
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url; a.download = `conversation_${sessionLabel.textContent}.txt`; document.body.appendChild(a); a.click(); a.remove();
-      URL.revokeObjectURL(url);
-    });
-
-    // initial welcome
-    addMessage('bot','Xin chào! Tôi là GPT Copilot (Asaka style). / Hello! I am GPT Copilot. Nhập câu hỏi của bạn.');
-  </script>
+            document.querySelectorAll('.appear-on-scroll').forEach((element) => {
+                observer.observe(element);
+            });
+        });
+    </script>
 </body>
 </html>
