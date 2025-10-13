@@ -1,128 +1,110 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AsakaCloud - Nền Tảng Công Nghệ Hiện Đại</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AsakaCloud.vn</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
-<body class="smooth-scroll">
+<body>
 
-    <header class="navbar" id="main-navbar">
-        <div class="logo-container">
-            <a href="#" class="logo">ASAKACLOUD</a>
-        </div>
-        <nav class="nav-menu">
-            <a href="#features" class="nav-item">TÍNH NĂNG</a>
-            <a href="#services" class="nav-item">DỊCH VỤ</a>
-            <a href="#pricing" class="nav-item">GIÁ</a>
-        </nav>
-        <button class="btn btn-login" id="open-login-btn">ĐĂNG NHẬP</button>
-    </header>
+  <!-- Thanh điều hướng -->
+  <header class="navbar">
+    <div class="logo">AsakaCloud</div>
+    <nav>
+      <ul>
+        <li><a href="#home">Trang chủ</a></li>
+        <li><a href="#services">Dịch vụ</a></li>
+        <li><a href="#about">Giới thiệu</a></li>
+        <li><a href="#contact">Liên hệ</a></li>
+        <li><button id="loginBtn" class="login-btn">Đăng nhập</button></li>
+      </ul>
+    </nav>
+  </header>
 
-    <section class="hero-section" id="home">
-        <div class="hero-bg-overlay"></div>
-        <div class="hero-content fade-up-animation">
-            <h1 class="gradient-text">NỀN TẢNG ĐÁM MÂY TỐC ĐỘ CAO</h1>
-            <p class="sub-text fade-in-line">Cung cấp giải pháp công nghệ hiện đại cho doanh nghiệp của bạn, với hiệu suất tối ưu và bảo mật tuyệt đối.</p>
-            <button class="btn btn-primary-action">BẮT ĐẦU NGAY</button>
-        </div>
-    </section>
-
-    <section class="services-section" id="services">
-        <h2 class="section-title appear-on-scroll">DỊCH VỤ CHUYÊN NGHIỆP</h2>
-        <div class="service-grid">
-            <div class="service-card appear-on-scroll" style="animation-delay: 0.1s;">
-                <div class="card-icon">💡</div>
-                <h3>Cloud Computing</h3>
-                <p>Giải pháp điện toán đám mây linh hoạt, bảo mật cao và dễ dàng mở rộng.</p>
-            </div>
-            <div class="service-card appear-on-scroll" style="animation-delay: 0.2s;">
-                <div class="card-icon">🚀</div>
-                <h3>Hosting Tốc Độ Cao</h3>
-                <p>Tăng tốc độ tải trang lên đến $50\%$ với công nghệ SSD và CDN toàn cầu.</p>
-            </div>
-            <div class="service-card appear-on-scroll" style="animation-delay: 0.3s;">
-                <div class="card-icon">🛡️</div>
-                <h3>Bảo Mật Website</h3>
-                <p>Hệ thống tường lửa WAF thông minh, bảo vệ dữ liệu $24/7$ khỏi mọi cuộc tấn công.</p>
-            </div>
-        </div>
-    </section>
-
-    <footer class="footer">
-        <div class="footer-content">
-            <p>&copy; 2024 AsakaCloud. All rights reserved.</p>
-            <div class="social-icons">
-                <a href="#" class="social-icon">F</a>
-                <a href="#" class="social-icon">X</a>
-                <a href="#" class="social-icon">in</a>
-            </div>
-        </div>
-        <div class="footer-links">
-            <a href="#">Điều khoản</a> | <a href="#">Chính sách bảo mật</a>
-        </div>
-    </footer>
-
-    <div class="login-modal-overlay" id="login-modal">
-        <div class="login-popup">
-            <h2>ĐĂNG NHẬP</h2>
-            <form>
-                <input type="text" placeholder="Tên đăng nhập" class="input-glow">
-                <input type="password" placeholder="Mật khẩu" class="input-glow">
-                <button class="btn btn-login-submit">ĐĂNG NHẬP</button>
-            </form>
-            <button class="close-btn" id="close-login-btn">&times;</button>
-        </div>
+  <!-- Banner -->
+  <section id="home" class="banner">
+    <div class="banner-content">
+      <h1>AsakaCloud.vn</h1>
+      <p>Nền tảng đám mây Việt Nam hiện đại, tốc độ và an toàn.</p>
+      <a href="#services" class="btn-primary">Khám phá ngay</a>
     </div>
+  </section>
 
-    <script>
-        // [JS cho Navbar thay đổi màu khi cuộn]
-        window.addEventListener('scroll', function() {
-            const navbar = document.getElementById('main-navbar');
-            if (window.scrollY > 50) {
-                navbar.classList.add('scrolled'); // Thêm class 'scrolled'
-            } else {
-                navbar.classList.remove('scrolled');
-            }
-        });
+  <!-- Dịch vụ -->
+  <section id="services" class="services">
+    <h2>Dịch vụ nổi bật</h2>
+    <div class="service-grid">
+      <div class="card fade-up">
+        <div class="icon">💻</div>
+        <h3>Hosting tốc độ cao</h3>
+        <p>Hiệu suất vượt trội, uptime 99.9% cho website của bạn.</p>
+      </div>
+      <div class="card fade-up">
+        <div class="icon">☁️</div>
+        <h3>Máy chủ VPS</h3>
+        <p>Cấu hình mạnh, SSD NVMe, bảo mật tối đa.</p>
+      </div>
+      <div class="card fade-up">
+        <div class="icon">🛡️</div>
+        <h3>Bảo mật dữ liệu</h3>
+        <p>Giải pháp mã hóa, tường lửa và backup tự động.</p>
+      </div>
+      <div class="card fade-up">
+        <div class="icon">🚀</div>
+        <h3>Tối ưu hiệu suất</h3>
+        <p>Tốc độ tải nhanh, tối ưu SEO và trải nghiệm người dùng.</p>
+      </div>
+    </div>
+  </section>
 
-        // [JS cho Popup Đăng nhập]
-        const modal = document.getElementById('login-modal');
-        const openBtn = document.getElementById('open-login-btn');
-        const closeBtn = document.getElementById('close-login-btn');
+  <!-- Giới thiệu -->
+  <section id="about" class="about">
+    <h2>Về AsakaCloud</h2>
+    <p>AsakaCloud.vn mang phong cách công nghệ hiện đại, giao diện tinh tế cùng nền tảng mạnh mẽ, hỗ trợ doanh nghiệp và cá nhân Việt Nam trong hành trình chuyển đổi số.</p>
+  </section>
 
-        openBtn.onclick = function() {
-            modal.classList.add('active'); // Kích hoạt hiệu ứng fade-in + zoom
-        }
-        closeBtn.onclick = function() {
-            modal.classList.remove('active');
-        }
-        modal.onclick = function(event) {
-            if (event.target === modal) {
-                modal.classList.remove('active');
-            }
-        }
-        
-        // [JS cho Animation on Scroll (Hiệu ứng xuất hiện khi cuộn)]
-        document.addEventListener('DOMContentLoaded', function() {
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('animated');
-                        // Tùy chọn: Dừng quan sát sau khi đã active
-                        // observer.unobserve(entry.target); 
-                    }
-                });
-            }, {
-                threshold: 0.1 // Kích hoạt khi 10% phần tử hiển thị
-            });
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="socials">
+      <a href="#">🌐</a>
+      <a href="#">📘</a>
+      <a href="#">🐦</a>
+      <a href="#">📸</a>
+    </div>
+    <p>© 2025 AsakaCloud.vn - All Rights Reserved.</p>
+  </footer>
 
-            document.querySelectorAll('.appear-on-scroll').forEach((element) => {
-                observer.observe(element);
-            });
-        });
-    </script>
+  <!-- Popup Login -->
+  <div id="loginPopup" class="popup">
+    <div class="popup-content">
+      <h3>Đăng nhập tài khoản</h3>
+      <input type="text" placeholder="Tên đăng nhập" />
+      <input type="password" placeholder="Mật khẩu" />
+      <button class="btn-primary">Đăng nhập</button>
+    </div>
+  </div>
+
+  <script>
+    // Navbar đổi màu khi cuộn
+    window.addEventListener('scroll', () => {
+      document.querySelector('.navbar').classList.toggle('scrolled', window.scrollY > 50);
+    });
+
+    // Hiệu ứng popup login
+    const loginBtn = document.getElementById('loginBtn');
+    const popup = document.getElementById('loginPopup');
+    loginBtn.onclick = () => popup.classList.add('show');
+    popup.onclick = (e) => { if (e.target === popup) popup.classList.remove('show'); };
+
+    // Fade-up animation khi cuộn
+    const fadeEls = document.querySelectorAll('.fade-up');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+      });
+    }, { threshold: 0.2 });
+    fadeEls.forEach(el => observer.observe(el));
+  </script>
 </body>
 </html>
