@@ -1,110 +1,640 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AsakaCloud.vn</title>
-  <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asaka Cloud - #1 Dịch Vụ Hosting & VPS Tại Việt Nam</title>
+    <meta name="description" content="Dịch vụ hosting và VPS chất lượng cao tại Việt Nam với giá cả hợp lý">
+    <link rel="icon" type="image/svg+xml" href="/favicon.jpg">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#ef4444',
+                        dark: {
+                            900: '#0a0f1a',
+                            800: '#0f1623',
+                            700: '#1a2332',
+                            600: '#243041'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #ef4444 0%, #f97316 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .glass-effect {
+            background: rgba(26, 35, 50, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .animate-float {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .animate-fade-in {
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hover-scale {
+            transition: transform 0.3s ease;
+        }
+
+        .hover-scale:hover {
+            transform: scale(1.05);
+        }
+
+        .glow-effect {
+            box-shadow: 0 0 20px rgba(239, 68, 68, 0.3);
+        }
+
+        .scroll-smooth {
+            scroll-behavior: smooth;
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0f1623;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #ef4444;
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #dc2626;
+        }
+    </style>
 </head>
-<body>
+<body class="bg-dark-900 text-white scroll-smooth">
+     Navigation 
+    <nav class="fixed top-0 w-full z-50 glass-effect">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-2">
+                    <svg class="w-10 h-10" viewBox="0 0 100 100" fill="none">
+                        <rect x="20" y="20" width="60" height="60" fill="#ef4444" rx="8"/>
+                        <rect x="30" y="35" width="15" height="3" fill="white"/>
+                        <rect x="30" y="45" width="15" height="3" fill="white"/>
+                        <rect x="30" y="55" width="15" height="3" fill="white"/>
+                        <rect x="55" y="35" width="15" height="3" fill="white"/>
+                        <rect x="55" y="45" width="15" height="3" fill="white"/>
+                        <rect x="55" y="55" width="15" height="3" fill="white"/>
+                    </svg>
+                    <span class="text-2xl font-bold gradient-text">Asaka Cloud</span>
+                </div>
+                
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#home" class="hover:text-primary transition">Trang chủ</a>
+                    <a href="#features" class="hover:text-primary transition">Tính năng</a>
+                    <a href="#pricing" class="hover:text-primary transition">Bảng giá</a>
+                    <a href="#servers" class="hover:text-primary transition">Máy chủ</a>
+                </div>
 
-  <!-- Thanh điều hướng -->
-  <header class="navbar">
-    <div class="logo">AsakaCloud</div>
-    <nav>
-      <ul>
-        <li><a href="#home">Trang chủ</a></li>
-        <li><a href="#services">Dịch vụ</a></li>
-        <li><a href="#about">Giới thiệu</a></li>
-        <li><a href="#contact">Liên hệ</a></li>
-        <li><button id="loginBtn" class="login-btn">Đăng nhập</button></li>
-      </ul>
+                <div id="auth-buttons" class="flex items-center space-x-4">
+                    <button onclick="showLogin()" class="px-6 py-2 border border-primary text-primary rounded-lg hover:bg-primary hover:text-white transition">
+                        Đăng nhập
+                    </button>
+                    <button onclick="showRegister()" class="px-6 py-2 bg-primary text-white rounded-lg hover:bg-red-600 transition glow-effect">
+                        Đăng ký
+                    </button>
+                </div>
+
+                <div id="user-profile" class="hidden items-center space-x-4">
+                    <div class="flex items-center space-x-3 cursor-pointer hover-scale" onclick="toggleProfileMenu()">
+                        <img id="user-avatar" src="/placeholder.svg?height=40&width=40" alt="Avatar" class="w-10 h-10 rounded-full border-2 border-primary">
+                        <div>
+                            <p id="user-name" class="font-semibold">User</p>
+                            <p id="user-balance" class="text-sm text-gray-400">0 VNĐ</p>
+                        </div>
+                    </div>
+                    <button onclick="logout()" class="px-4 py-2 bg-red-600 rounded-lg hover:bg-red-700 transition">
+                        Đăng xuất
+                    </button>
+                </div>
+            </div>
+        </div>
     </nav>
-  </header>
 
-  <!-- Banner -->
-  <section id="home" class="banner">
-    <div class="banner-content">
-      <h1>AsakaCloud.vn</h1>
-      <p>Nền tảng đám mây Việt Nam hiện đại, tốc độ và an toàn.</p>
-      <a href="#services" class="btn-primary">Khám phá ngay</a>
+     Hero Section 
+    <section id="home" class="pt-32 pb-20 px-6">
+        <div class="container mx-auto text-center">
+            <div class="animate-fade-in">
+                <h1 class="text-5xl md:text-7xl font-bold mb-6">
+                    <span class="gradient-text">Asaka Cloud</span>
+                </h1>
+                <p class="text-xl md:text-2xl text-gray-300 mb-8">
+                    #1 Dịch Vụ Hosting & VPS Tại Việt Nam
+                </p>
+                <p class="text-lg text-gray-400 mb-12 max-w-2xl mx-auto">
+                    Máy chủ chất lượng cao với giá cả hợp lý, hỗ trợ 24/7, khởi tạo tức thì chỉ trong 30 giây
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <button onclick="scrollToSection('pricing')" class="px-8 py-4 bg-primary text-white rounded-lg text-lg font-semibold hover:bg-red-600 transition glow-effect hover-scale">
+                        Bắt đầu ngay
+                    </button>
+                    <button onclick="scrollToSection('features')" class="px-8 py-4 border border-primary text-primary rounded-lg text-lg font-semibold hover:bg-primary hover:text-white transition hover-scale">
+                        Tìm hiểu thêm
+                    </button>
+                </div>
+            </div>
+
+            <div class="mt-20 animate-float">
+                <svg class="w-64 h-64 mx-auto" viewBox="0 0 200 200" fill="none">
+                    <rect x="50" y="50" width="100" height="100" fill="#ef4444" rx="12" opacity="0.8"/>
+                    <rect x="60" y="70" width="30" height="5" fill="white"/>
+                    <rect x="60" y="85" width="30" height="5" fill="white"/>
+                    <rect x="60" y="100" width="30" height="5" fill="white"/>
+                    <rect x="110" y="70" width="30" height="5" fill="white"/>
+                    <rect x="110" y="85" width="30" height="5" fill="white"/>
+                    <rect x="110" y="100" width="30" height="5" fill="white"/>
+                </svg>
+            </div>
+        </div>
+    </section>
+
+     Features Section 
+    <section id="features" class="py-20 px-6 bg-dark-800">
+        <div class="container mx-auto">
+            <h2 class="text-4xl md:text-5xl font-bold text-center mb-4">
+                <span class="gradient-text">Asaka Cloud có gì?</span>
+            </h2>
+            <p class="text-center text-gray-400 mb-16 max-w-3xl mx-auto">
+                Chúng tôi mang đến những ưu điểm vượt trội để đảm bảo trải nghiệm máy chủ tốt nhất cho bạn
+            </p>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                 Feature 1 
+                <div class="glass-effect p-8 rounded-xl hover-scale animate-fade-in">
+                    <div class="w-16 h-16 bg-primary rounded-lg flex items-center justify-center mb-6">
+                        <svg class="w-8 h-8" fill="white" viewBox="0 0 20 20">
+                            <path d="M10 2a8 8 0 100 16 8 8 0 000-16zm1 11H9v-2h2v2zm0-4H9V5h2v4z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4">Khởi tạo tức thì</h3>
+                    <p class="text-gray-400">
+                        Máy chủ được tạo và sẵn sàng hoạt động chỉ trong vòng 30 giây. Không cần chờ đợi, bắt đầu ngay lập tức.
+                    </p>
+                </div>
+
+                 Feature 2 
+                <div class="glass-effect p-8 rounded-xl hover-scale animate-fade-in" style="animation-delay: 0.1s">
+                    <div class="w-16 h-16 bg-primary rounded-lg flex items-center justify-center mb-6">
+                        <svg class="w-8 h-8" fill="white" viewBox="0 0 20 20">
+                            <path d="M2 5a2 2 0 012-2h12a2 2 0 012 2v10a2 2 0 01-2 2H4a2 2 0 01-2-2V5zm3 1h10v8H5V6z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4">Hỗ trợ 24/7</h3>
+                    <p class="text-gray-400">
+                        Đội ngũ kỹ thuật Việt Nam luôn sẵn sàng hỗ trợ bạn mọi lúc, mọi nơi qua Discord và ticket system.
+                    </p>
+                </div>
+
+                 Feature 3 
+                <div class="glass-effect p-8 rounded-xl hover-scale animate-fade-in" style="animation-delay: 0.2s">
+                    <div class="w-16 h-16 bg-primary rounded-lg flex items-center justify-center mb-6">
+                        <svg class="w-8 h-8" fill="white" viewBox="0 0 20 20">
+                            <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4">Bảo vệ AntiDDoS Pro</h3>
+                    <p class="text-gray-400">
+                        Hệ thống phòng chống tấn công DDoS Layer 4/7 tiên tiến, đảm bảo máy chủ luôn ổn định và an toàn.
+                    </p>
+                </div>
+
+                 Feature 4 
+                <div class="glass-effect p-8 rounded-xl hover-scale animate-fade-in" style="animation-delay: 0.3s">
+                    <div class="w-16 h-16 bg-primary rounded-lg flex items-center justify-center mb-6">
+                        <svg class="w-8 h-8" fill="white" viewBox="0 0 20 20">
+                            <path d="M4 4a2 2 0 00-2 2v8a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2H4zm0 2h12v8H4V6z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4">Sao lưu không giới hạn</h3>
+                    <p class="text-gray-400">
+                        Không giới hạn bản sao lưu, khôi phục dễ dàng với 1 click. An tâm về dữ liệu của bạn.
+                    </p>
+                </div>
+
+                 Feature 5 
+                <div class="glass-effect p-8 rounded-xl hover-scale animate-fade-in" style="animation-delay: 0.4s">
+                    <div class="w-16 h-16 bg-primary rounded-lg flex items-center justify-center mb-6">
+                        <svg class="w-8 h-8" fill="white" viewBox="0 0 20 20">
+                            <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zm0 6a1 1 0 011-1h12a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4">Cài đặt mod 1-click</h3>
+                    <p class="text-gray-400">
+                        Thư viện mod và plugin phong phú, cài đặt chỉ với 1 click. Forge, Fabric, Paper plugins đều có sẵn.
+                    </p>
+                </div>
+
+                 Feature 6 
+                <div class="glass-effect p-8 rounded-xl hover-scale animate-fade-in" style="animation-delay: 0.5s">
+                    <div class="w-16 h-16 bg-primary rounded-lg flex items-center justify-center mb-6">
+                        <svg class="w-8 h-8" fill="white" viewBox="0 0 20 20">
+                            <path d="M8.433 7.418c.155-.103.346-.196.567-.267v1.698a2.305 2.305 0 01-.567-.267C8.07 8.34 8 8.114 8 8c0-.114.07-.34.433-.582zM11 12.849v-1.698c.22.071.412.164.567.267.364.243.433.468.433.582 0 .114-.07.34-.433.582a2.305 2.305 0 01-.567.267z"/>
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-13a1 1 0 10-2 0v.092a4.535 4.535 0 00-1.676.662C6.602 6.234 6 7.009 6 8c0 .99.602 1.765 1.324 2.246.48.32 1.054.545 1.676.662v1.941c-.391-.127-.68-.317-.843-.504a1 1 0 10-1.51 1.31c.562.649 1.413 1.076 2.353 1.253V15a1 1 0 102 0v-.092a4.535 4.535 0 001.676-.662C13.398 13.766 14 12.991 14 12c0-.99-.602-1.765-1.324-2.246A4.535 4.535 0 0011 9.092V7.151c.391.127.68.317.843.504a1 1 0 101.511-1.31c-.563-.649-1.413-1.076-2.354-1.253V5z" clip-rule="evenodd"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4">Giá cả hợp lý nhất</h3>
+                    <p class="text-gray-400">
+                        Mức giá cạnh tranh nhất thị trường Việt Nam. Chất lượng cao nhưng chi phí thấp, phù hợp mọi túi tiền.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+     Pricing Section 
+    <section id="pricing" class="py-20 px-6">
+        <div class="container mx-auto">
+            <h2 class="text-4xl md:text-5xl font-bold text-center mb-4">
+                <span class="gradient-text">Chọn gói phù hợp với bạn</span>
+            </h2>
+            <p class="text-center text-gray-400 mb-16">
+                Các gói dịch vụ linh hoạt với mức giá cạnh tranh
+            </p>
+
+            <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+                 Basic Plan 
+                <div class="glass-effect p-8 rounded-xl hover-scale">
+                    <h3 class="text-2xl font-bold mb-2">Basic</h3>
+                    <div class="text-4xl font-bold mb-6">
+                        <span class="gradient-text">50.000đ</span>
+                        <span class="text-lg text-gray-400">/tháng</span>
+                    </div>
+                    <ul class="space-y-4 mb-8">
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 text-primary mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                            2GB RAM
+                        </li>
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 text-primary mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                            20GB SSD NVMe
+                        </li>
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 text-primary mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                            Băng thông không giới hạn
+                        </li>
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 text-primary mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                            AntiDDoS Pro
+                        </li>
+                    </ul>
+                    <button onclick="purchaseService('basic', 50000)" class="w-full px-6 py-3 border border-primary text-primary rounded-lg hover:bg-primary hover:text-white transition">
+                        Chọn gói
+                    </button>
+                </div>
+
+                 Pro Plan 
+                <div class="glass-effect p-8 rounded-xl hover-scale border-2 border-primary glow-effect">
+                    <div class="bg-primary text-white text-sm font-bold px-3 py-1 rounded-full inline-block mb-4">
+                        PHỔ BIẾN
+                    </div>
+                    <h3 class="text-2xl font-bold mb-2">Pro</h3>
+                    <div class="text-4xl font-bold mb-6">
+                        <span class="gradient-text">150.000đ</span>
+                        <span class="text-lg text-gray-400">/tháng</span>
+                    </div>
+                    <ul class="space-y-4 mb-8">
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 text-primary mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                            4GB RAM
+                        </li>
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 text-primary mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                            50GB SSD NVMe
+                        </li>
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 text-primary mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                            Băng thông không giới hạn
+                        </li>
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 text-primary mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                            AntiDDoS Pro
+                        </li>
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 text-primary mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                            Sao lưu tự động
+                        </li>
+                    </ul>
+                    <button onclick="purchaseService('pro', 150000)" class="w-full px-6 py-3 bg-primary text-white rounded-lg hover:bg-red-600 transition glow-effect">
+                        Chọn gói
+                    </button>
+                </div>
+
+                 Enterprise Plan 
+                <div class="glass-effect p-8 rounded-xl hover-scale">
+                    <h3 class="text-2xl font-bold mb-2">Enterprise</h3>
+                    <div class="text-4xl font-bold mb-6">
+                        <span class="gradient-text">500.000đ</span>
+                        <span class="text-lg text-gray-400">/tháng</span>
+                    </div>
+                    <ul class="space-y-4 mb-8">
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 text-primary mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                            8GB RAM
+                        </li>
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 text-primary mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                            100GB SSD NVMe
+                        </li>
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 text-primary mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                            Băng thông không giới hạn
+                        </li>
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 text-primary mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                            AntiDDoS Pro
+                        </li>
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 text-primary mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                            Sao lưu tự động
+                        </li>
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 text-primary mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                            Hỗ trợ ưu tiên
+                        </li>
+                    </ul>
+                    <button onclick="purchaseService('enterprise', 500000)" class="w-full px-6 py-3 border border-primary text-primary rounded-lg hover:bg-primary hover:text-white transition">
+                        Chọn gói
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+     Servers Section 
+    <section id="servers" class="py-20 px-6 bg-dark-800">
+        <div class="container mx-auto">
+            <h2 class="text-4xl md:text-5xl font-bold text-center mb-4">
+                <span class="gradient-text">Máy chủ đang sử dụng Asaka Cloud</span>
+            </h2>
+            <p class="text-center text-gray-400 mb-16">
+                Những máy chủ Minecraft hàng đầu Việt Nam đã tin tưởng và sử dụng dịch vụ của chúng tôi
+            </p>
+
+            <div class="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                <div class="glass-effect p-6 rounded-xl hover-scale">
+                    <div class="w-16 h-16 bg-primary rounded-lg mb-4"></div>
+                    <h3 class="text-xl font-bold mb-2">KingOra.net</h3>
+                    <p class="text-gray-400">Máy chủ Minecraft đa chế độ, đông đảo người chơi.</p>
+                </div>
+
+                <div class="glass-effect p-6 rounded-xl hover-scale">
+                    <div class="w-16 h-16 bg-primary rounded-lg mb-4"></div>
+                    <h3 class="text-xl font-bold mb-2">VNPvP.asia</h3>
+                    <p class="text-gray-400">Máy chủ PvP chuyên nghiệp tại Việt Nam.</p>
+                </div>
+
+                <div class="glass-effect p-6 rounded-xl hover-scale">
+                    <div class="w-16 h-16 bg-primary rounded-lg mb-4"></div>
+                    <h3 class="text-xl font-bold mb-2">SoulMC.vn</h3>
+                    <p class="text-gray-400">Máy chủ đa chế độ, đông đảo người chơi.</p>
+                </div>
+            </div>
+
+            <div class="text-center mt-12">
+                <p class="text-2xl font-bold">
+                    Và còn hơn <span class="gradient-text">500 máy chủ</span> khác!
+                </p>
+            </div>
+        </div>
+    </section>
+
+     Footer 
+    <footer class="py-12 px-6 border-t border-dark-600">
+        <div class="container mx-auto">
+            <div class="grid md:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <div class="flex items-center space-x-2 mb-4">
+                        <svg class="w-8 h-8" viewBox="0 0 100 100" fill="none">
+                            <rect x="20" y="20" width="60" height="60" fill="#ef4444" rx="8"/>
+                        </svg>
+                        <span class="text-xl font-bold gradient-text">Asaka Cloud</span>
+                    </div>
+                    <p class="text-gray-400">
+                        Dịch vụ hosting và VPS chất lượng cao tại Việt Nam
+                    </p>
+                </div>
+
+                <div>
+                    <h4 class="font-bold mb-4">Dịch vụ</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-primary transition">Minecraft Hosting</a></li>
+                        <li><a href="#" class="hover:text-primary transition">VPS</a></li>
+                        <li><a href="#" class="hover:text-primary transition">Dedicated Server</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-bold mb-4">Hỗ trợ</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-primary transition">Discord</a></li>
+                        <li><a href="#" class="hover:text-primary transition">Ticket System</a></li>
+                        <li><a href="#" class="hover:text-primary transition">Tài liệu</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-bold mb-4">Công ty</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-primary transition">Về chúng tôi</a></li>
+                        <li><a href="#" class="hover:text-primary transition">Điều khoản</a></li>
+                        <li><a href="#" class="hover:text-primary transition">Chính sách</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="border-t border-dark-600 pt-8 text-center text-gray-400">
+                <p>&copy; 2025 Asaka Cloud Technologies. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+     Login Modal 
+    <div id="login-modal" class="hidden fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4">
+        <div class="glass-effect rounded-2xl p-8 max-w-md w-full animate-fade-in">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-3xl font-bold gradient-text">Đăng nhập</h2>
+                <button onclick="closeModal('login-modal')" class="text-gray-400 hover:text-white text-2xl">×</button>
+            </div>
+            
+            <form onsubmit="handleLogin(event)" class="space-y-6">
+                <div>
+                    <label class="block text-sm font-medium mb-2">Email</label>
+                    <input type="email" id="login-email" required class="w-full px-4 py-3 bg-dark-700 border border-dark-600 rounded-lg focus:outline-none focus:border-primary transition">
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium mb-2">Mật khẩu</label>
+                    <input type="password" id="login-password" required class="w-full px-4 py-3 bg-dark-700 border border-dark-600 rounded-lg focus:outline-none focus:border-primary transition">
+                </div>
+
+                <button type="submit" class="w-full px-6 py-3 bg-primary text-white rounded-lg hover:bg-red-600 transition glow-effect font-semibold">
+                    Đăng nhập
+                </button>
+            </form>
+
+            <p class="text-center text-gray-400 mt-6">
+                Chưa có tài khoản? 
+                <button onclick="switchToRegister()" class="text-primary hover:underline">Đăng ký ngay</button>
+            </p>
+        </div>
     </div>
-  </section>
 
-  <!-- Dịch vụ -->
-  <section id="services" class="services">
-    <h2>Dịch vụ nổi bật</h2>
-    <div class="service-grid">
-      <div class="card fade-up">
-        <div class="icon">💻</div>
-        <h3>Hosting tốc độ cao</h3>
-        <p>Hiệu suất vượt trội, uptime 99.9% cho website của bạn.</p>
-      </div>
-      <div class="card fade-up">
-        <div class="icon">☁️</div>
-        <h3>Máy chủ VPS</h3>
-        <p>Cấu hình mạnh, SSD NVMe, bảo mật tối đa.</p>
-      </div>
-      <div class="card fade-up">
-        <div class="icon">🛡️</div>
-        <h3>Bảo mật dữ liệu</h3>
-        <p>Giải pháp mã hóa, tường lửa và backup tự động.</p>
-      </div>
-      <div class="card fade-up">
-        <div class="icon">🚀</div>
-        <h3>Tối ưu hiệu suất</h3>
-        <p>Tốc độ tải nhanh, tối ưu SEO và trải nghiệm người dùng.</p>
-      </div>
+     Register Modal 
+    <div id="register-modal" class="hidden fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4">
+        <div class="glass-effect rounded-2xl p-8 max-w-md w-full animate-fade-in">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-3xl font-bold gradient-text">Đăng ký</h2>
+                <button onclick="closeModal('register-modal')" class="text-gray-400 hover:text-white text-2xl">×</button>
+            </div>
+            
+            <form onsubmit="handleRegister(event)" class="space-y-6">
+                <div>
+                    <label class="block text-sm font-medium mb-2">Họ và tên</label>
+                    <input type="text" id="register-name" required class="w-full px-4 py-3 bg-dark-700 border border-dark-600 rounded-lg focus:outline-none focus:border-primary transition">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium mb-2">Email</label>
+                    <input type="email" id="register-email" required class="w-full px-4 py-3 bg-dark-700 border border-dark-600 rounded-lg focus:outline-none focus:border-primary transition">
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium mb-2">Mật khẩu</label>
+                    <input type="password" id="register-password" required class="w-full px-4 py-3 bg-dark-700 border border-dark-600 rounded-lg focus:outline-none focus:border-primary transition">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium mb-2">Xác nhận mật khẩu</label>
+                    <input type="password" id="register-confirm" required class="w-full px-4 py-3 bg-dark-700 border border-dark-600 rounded-lg focus:outline-none focus:border-primary transition">
+                </div>
+
+                <button type="submit" class="w-full px-6 py-3 bg-primary text-white rounded-lg hover:bg-red-600 transition glow-effect font-semibold">
+                    Đăng ký
+                </button>
+            </form>
+
+            <p class="text-center text-gray-400 mt-6">
+                Đã có tài khoản? 
+                <button onclick="switchToLogin()" class="text-primary hover:underline">Đăng nhập</button>
+            </p>
+        </div>
     </div>
-  </section>
 
-  <!-- Giới thiệu -->
-  <section id="about" class="about">
-    <h2>Về AsakaCloud</h2>
-    <p>AsakaCloud.vn mang phong cách công nghệ hiện đại, giao diện tinh tế cùng nền tảng mạnh mẽ, hỗ trợ doanh nghiệp và cá nhân Việt Nam trong hành trình chuyển đổi số.</p>
-  </section>
+     Payment Modal 
+    <div id="payment-modal" class="hidden fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4">
+        <div class="glass-effect rounded-2xl p-8 max-w-md w-full animate-fade-in">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-3xl font-bold gradient-text">Thanh toán</h2>
+                <button onclick="closeModal('payment-modal')" class="text-gray-400 hover:text-white text-2xl">×</button>
+            </div>
+            
+            <div class="text-center mb-6">
+                <p class="text-lg mb-2">Gói: <span id="payment-plan" class="font-bold text-primary"></span></p>
+                <p class="text-3xl font-bold gradient-text" id="payment-amount"></p>
+            </div>
 
-  <!-- Footer -->
-  <footer class="footer">
-    <div class="socials">
-      <a href="#">🌐</a>
-      <a href="#">📘</a>
-      <a href="#">🐦</a>
-      <a href="#">📸</a>
+            <div class="bg-white p-6 rounded-lg mb-6">
+                <div id="qr-code" class="flex items-center justify-center">
+                    <svg class="w-48 h-48" viewBox="0 0 200 200">
+                        <rect x="0" y="0" width="200" height="200" fill="white"/>
+                        <rect x="20" y="20" width="30" height="30" fill="black"/>
+                        <rect x="60" y="20" width="10" height="10" fill="black"/>
+                        <rect x="80" y="20" width="10" height="10" fill="black"/>
+                        <rect x="100" y="20" width="10" height="10" fill="black"/>
+                        <rect x="150" y="20" width="30" height="30" fill="black"/>
+                        <rect x="20" y="60" width="10" height="10" fill="black"/>
+                        <rect x="40" y="60" width="10" height="10" fill="black"/>
+                        <rect x="70" y="60" width="20" height="20" fill="black"/>
+                        <rect x="110" y="60" width="20" height="20" fill="black"/>
+                        <rect x="150" y="60" width="10" height="10" fill="black"/>
+                        <rect x="170" y="60" width="10" height="10" fill="black"/>
+                        <rect x="20" y="150" width="30" height="30" fill="black"/>
+                        <rect x="60" y="150" width="10" height="10" fill="black"/>
+                        <rect x="80" y="150" width="10" height="10" fill="black"/>
+                        <rect x="100" y="150" width="10" height="10" fill="black"/>
+                        <rect x="150" y="150" width="30" height="30" fill="black"/>
+                    </svg>
+                </div>
+            </div>
+
+            <div class="space-y-3 text-sm text-gray-400">
+                <p>• Quét mã QR bằng ứng dụng ngân hàng</p>
+                <p>• Nội dung chuyển khoản: <span class="text-white font-mono" id="payment-content"></span></p>
+                <p>• Số tiền sẽ được cộng tự động sau 1-2 phút</p>
+            </div>
+
+            <button onclick="confirmPayment()" class="w-full mt-6 px-6 py-3 bg-primary text-white rounded-lg hover:bg-red-600 transition glow-effect font-semibold">
+                Tôi đã thanh toán
+            </button>
+        </div>
     </div>
-    <p>© 2025 AsakaCloud.vn - All Rights Reserved.</p>
-  </footer>
 
-  <!-- Popup Login -->
-  <div id="loginPopup" class="popup">
-    <div class="popup-content">
-      <h3>Đăng nhập tài khoản</h3>
-      <input type="text" placeholder="Tên đăng nhập" />
-      <input type="password" placeholder="Mật khẩu" />
-      <button class="btn-primary">Đăng nhập</button>
-    </div>
-  </div>
-
-  <script>
-    // Navbar đổi màu khi cuộn
-    window.addEventListener('scroll', () => {
-      document.querySelector('.navbar').classList.toggle('scrolled', window.scrollY > 50);
-    });
-
-    // Hiệu ứng popup login
-    const loginBtn = document.getElementById('loginBtn');
-    const popup = document.getElementById('loginPopup');
-    loginBtn.onclick = () => popup.classList.add('show');
-    popup.onclick = (e) => { if (e.target === popup) popup.classList.remove('show'); };
-
-    // Fade-up animation khi cuộn
-    const fadeEls = document.querySelectorAll('.fade-up');
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) entry.target.classList.add('visible');
-      });
-    }, { threshold: 0.2 });
-    fadeEls.forEach(el => observer.observe(el));
-  </script>
+    <script src="/js/app.js"></script>
 </body>
 </html>
